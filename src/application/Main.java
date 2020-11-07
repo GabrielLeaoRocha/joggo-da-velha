@@ -19,6 +19,7 @@ public class Main {
 		Tabuleiro tabuleiro = new Tabuleiro();
 		Posicao posicao = new Posicao();
 		String peca;
+		char resp;
 		List<Jogador> jogadores = new ArrayList<>();
 		String nomeJogador01, nomeJogador02;
 		
@@ -55,6 +56,8 @@ public class Main {
         System.out.println(jogadores.get(0).getNome() + " é a peça '" + jogadores.get(0).getPeca() + "'");
         System.out.println(jogadores.get(1).getNome() + " é a peça '" + jogadores.get(1).getPeca() + "'");
         pularLinha();
+        
+        do {
 		int rodada = rd.nextInt(2);
 		for(int j=1; j<=(tabuleiro.getColunas()*tabuleiro.getLinhas()); j++){
 			if(j==1) {
@@ -85,17 +88,24 @@ public class Main {
 					tabuleiro.printTabuleiro();
 					pularLinha();
 					System.out.println("Jogador " + jogadores.get(i).getNome() + " venceu!!!!");
-					j = 9;
 					vitoria = true;
+					j = 9;
 				}
-				else if(condicaoDeEmpate(tabuleiro.getMat_boolean()) && !vitoria){
+			}	
+			if(condicaoDeEmpate(tabuleiro.getMat_boolean()) && !vitoria){
 					tabuleiro.printTabuleiro();
 					pularLinha();
 					System.out.println("Empate!");
 					j = 9;
-				}
 			}
 		}
+		pularLinha();
+		System.out.print("Deseja jogar novamente? (s/n): ");
+		resp = sc.next().charAt(0);
+		pularLinha();
+		System.out.println("------------------------------");
+		
+        }while(resp != 'n');
 		sc.close();
 	}
 
@@ -149,9 +159,6 @@ public class Main {
 }
 
 /*MELHORIAS A SEREM FEITAS:
-	criar condição de final por empate (G)
-	mudar todos campos envolvendo posicao para a classe posicao (G)
-	opção de jogar novamente (G)
 	lançar exceções
 	retornar para a jogada passada caso ocorra uma exceção
 */
