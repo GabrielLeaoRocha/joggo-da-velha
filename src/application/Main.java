@@ -18,24 +18,43 @@ public class Main {
 		Random rd = new Random();
 		Tabuleiro tabuleiro = new Tabuleiro();
 		Posicao posicao = new Posicao();
+		String peca;
 		List<Jogador> jogadores = new ArrayList<>();
+		String nomeJogador01, nomeJogador02;
 		
 		System.out.println("========== JOGO DA VELHA ==========");
 		pularLinha();
 
-		for (int i = 1; i <= 2; i++) {
-			System.out.print("Forneça o nome do jogador " + i + ": ");
-			String nome = sc.next();
-			System.out.print("Escolha uma letra para jogar: ");
-			String peca = sc.next();
+		System.out.print("Forneça o nome do jogador 1: ");
+        nomeJogador01 = sc.next();
 
-			jogadores.add(new Jogador(nome, peca));
-			pularLinha();
-		}
+        do {
+            System.out.print("Escolha uma letra para jogar: ");
+            peca = sc.next();
 
-		System.out.println("<---- Que comecem os jogos ---->");
-		pularLinha();
+                if(validaPeca(peca)) {
+                    jogadores.add(new Jogador(nomeJogador01, peca.toUpperCase()));
+                    break;
+                }
 
+        }while(true);
+
+        System.out.print("\nForneça o nome do jogador 2: ");
+        nomeJogador02 = sc.next();
+
+        if(jogadores.get(0).getPeca().equals("x") || jogadores.get(0).getPeca().equals("X")) {
+            jogadores.add(new Jogador(nomeJogador02, "O"));
+        }else {
+            jogadores.add(new Jogador(nomeJogador02, "X"));
+        }
+
+        pularLinha();
+
+        System.out.println("<---- Que comecem os jogos ---->");
+        pularLinha();
+        System.out.println(jogadores.get(0).getNome() + " é a peça '" + jogadores.get(0).getPeca() + "'");
+        System.out.println(jogadores.get(1).getNome() + " é a peça '" + jogadores.get(1).getPeca() + "'");
+        pularLinha();
 		int rodada = rd.nextInt(2);
 		for(int j=1; j<=(tabuleiro.getColunas()*tabuleiro.getLinhas()); j++){
 			if(j==1) {
@@ -59,12 +78,20 @@ public class Main {
 
 			pularLinha();
 			rodada++;
+			boolean vitoria = false;
 			
 			for (int i = 0; i <= 1; i++) {
 				if (condicaoDeVitoria(tabuleiro.getMat(), jogadores.get(i).getPeca())) {
 					tabuleiro.printTabuleiro();
 					pularLinha();
 					System.out.println("Jogador " + jogadores.get(i).getNome() + " venceu!!!!");
+					j = 9;
+					vitoria = true;
+				}
+				else if(condicaoDeEmpate(tabuleiro.getMat_boolean()) && !vitoria){
+					tabuleiro.printTabuleiro();
+					pularLinha();
+					System.out.println("Empate!");
 					j = 9;
 				}
 			}
@@ -73,6 +100,17 @@ public class Main {
 	}
 
 	//methods
+	public static boolean validaPeca(String peca) {
+        if(peca.equals("X") || peca.equals("x")) {
+            return true;
+        }else if(peca.equals("O") || peca.equals("o")){
+            return true;
+        }
+        pularLinha();
+        System.out.println("Error!!! Escolhe entre 'X' ou 'O'");
+        return false;
+    }
+	
 	public static boolean condicaoDeVitoria(String[][] mat, String peca) {
 		
 		if (mat[0][0].equals(peca) && mat[0][1].equals(peca) && mat[0][2].equals(peca)
@@ -86,6 +124,23 @@ public class Main {
 			return true;
 		} 
 		return false;
+	} 
+	
+	public static boolean condicaoDeEmpate(boolean[][] mat) {
+		int casasOcupadas = 0;
+		for(int i = 0; i<mat.length; i++) {
+			for(int j = 0; j<mat[i].length; j++) {
+				if(mat[i][j] == true) {
+					casasOcupadas++;
+				}
+			}
+		}
+		if(casasOcupadas >= 9) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public static void pularLinha() {
@@ -94,8 +149,9 @@ public class Main {
 }
 
 /*MELHORIAS A SEREM FEITAS:
-	só permitir o jogador escolher entre X ou O, nao qualquer caracter
-	criar condição de final por empate
-	mudar todos campos envolvendo posicao para a classe posicao
-	
+	criar condição de final por empate (G)
+	mudar todos campos envolvendo posicao para a classe posicao (G)
+	opção de jogar novamente (G)
+	lançar exceções
+	retornar para a jogada passada caso ocorra uma exceção
 */
