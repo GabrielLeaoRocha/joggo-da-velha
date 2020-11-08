@@ -95,9 +95,4 @@ public class Jogada {
 		return false;
 	}
 	
-	public void resetaRodada() {
-		this.rodada = rd.nextInt(2);
-		this.empate = false;
-		this.vitoria = false;
-	}
 }

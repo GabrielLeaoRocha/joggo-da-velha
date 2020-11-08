@@ -14,11 +14,11 @@ public class Application {
 
 	private static Scanner sc = new Scanner(System.in);
 	private static Posicao posicao = new Posicao();
-	private static Jogada jogada = new Jogada();
-	private static String peca;
-	private static char resp;
+	private static Jogada jogada;
 	private static List<Jogador> jogadores = new ArrayList<>();
 	private static String nomeJogador01, nomeJogador02;
+	private static String peca;
+	private static char resp;
 
 	Application(){}
 
@@ -44,7 +44,7 @@ public class Application {
 		sc.nextLine();
 		nomeJogador02 = sc.nextLine();
 
-		if (jogadores.get(0).getPeca().equals("x") || jogadores.get(0).getPeca().equals("X")) {
+		if (jogadores.get(0).getPeca().equals("X")) {
 			jogadores.add(new Jogador(nomeJogador02, "O"));
 		} else {
 			jogadores.add(new Jogador(nomeJogador02, "X"));
@@ -61,6 +61,7 @@ public class Application {
 		do {
 
 			Tabuleiro tabuleiro = new Tabuleiro();
+			jogada = new Jogada();
 			int j = 1;
 
 			while (!jogada.isVitoria() && !jogada.isEmpate()) {
@@ -89,13 +90,13 @@ public class Application {
 						System.out.println("Jogador " + jogadores.get(jogada.traduzJogador(jogada.getRodada())).getNome() + " venceu!!!!");
 					} else if (jogada.isEmpate()) {
 						Tabuleiro.pularLinha();
-						System.out.println("Empate!");
+						System.out.println("Deu velha!");
 					}
 
 					if (condicaoRodada) {
-						j++;
 						jogada.addRodada();
 					}
+					
 				} catch (InputMismatchException e) {
 					System.out.println("ATENÇÃO! Casa não existente no tabuleiro");
 					sc.nextLine();
@@ -118,8 +119,7 @@ public class Application {
 
 			Tabuleiro.pularLinha();
 			System.out.println("------------------------------");
-			jogada.resetaRodada();
-
+			
 		} while (resp != 'N');
 		sc.close();
 	}
