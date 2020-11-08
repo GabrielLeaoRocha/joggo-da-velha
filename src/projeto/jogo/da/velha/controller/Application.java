@@ -71,11 +71,19 @@ public class Application {
 				}
 
 				try {
-					System.out.print("\n#" + jogadores.get(jogada.traduzJogador(jogada.getRodada())).getNome()
-							+ " selecione uma casa de 1 a 9: ");
-					int casa = sc.nextInt();
-					boolean condicaoRodada = tabuleiro.acrescentaPeca(posicao.traduzPosicao(casa),jogadores.get(jogada.traduzJogador(jogada.getRodada())).getPeca());
+					boolean condicaoRodada = false;
+					while(true) {
+						System.out.print("\n#" + jogadores.get(jogada.traduzJogador(jogada.getRodada())).getNome() + " selecione uma casa de 1 a 9: ");
+						int casa = sc.nextInt();
 
+						if (casa <= 9) {
+							condicaoRodada = tabuleiro.acrescentaPeca(posicao.traduzPosicao(casa), jogadores.get(jogada.traduzJogador(jogada.getRodada())).getPeca());
+							break;
+						}else{
+							System.out.println("ATENÇÃO!!! Casa incorreta");
+						}
+					}
+					
 					if (condicaoRodada) {
 						Tabuleiro.pularLinha();
 						tabuleiro.printTabuleiro();
@@ -97,7 +105,7 @@ public class Application {
 						jogada.addRodada();
 					}
 				} catch (InputMismatchException e) {
-					System.out.println("ATENÇÃO! Casa não existente no tabuleiro");
+					System.out.println("ATENÇÃO! Não é permitido letras ou caracteres");
 					sc.nextLine();
 				}
 			}
