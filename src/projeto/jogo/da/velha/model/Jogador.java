@@ -1,4 +1,4 @@
-package entities;
+package projeto.jogo.da.velha.model;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ public class Jogador extends Pessoa{
 
 	private int pontos;
 	private String peca;
-	List<Jogador> jogadores;
+	private List<Jogador> jogadores;
 	
 	public Jogador(String nome, String peca) {
 		super(nome);

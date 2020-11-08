@@ -1,10 +1,10 @@
-package entities;
+package projeto.jogo.da.velha.model;
 
 import java.util.Random;
 
 public class Jogada {
 
-	Random rd = new Random();
+	private Random rd = new Random();
 
 	private int rodada;
 	private boolean vitoria;
@@ -91,7 +91,7 @@ public class Jogada {
 		} else if (peca.equals("O") || peca.equals("o")) {
 			return true;
 		}
-		System.out.println("\nError!!! Escolhe entre 'X' ou 'O'");
+		System.out.println("\nATENÇÃO!!! Peça incorreta");
 		return false;
 	}
 	

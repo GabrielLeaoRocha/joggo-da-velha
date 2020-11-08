@@ -1,11 +1,9 @@
-package entities;
+package projeto.jogo.da.velha.model;
 
 public class Posicao {
 
 	private int linha;
 	private int coluna;
-	
-	
 
 	public Posicao() {
 	}
@@ -55,5 +53,4 @@ public class Posicao {
 		p = new Posicao(l, c);
 		return p;
 	}
-	
 }

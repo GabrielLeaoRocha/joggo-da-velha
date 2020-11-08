@@ -1,4 +1,4 @@
-package entities;
+package projeto.jogo.da.velha.model;
 
 public class Pessoa {
 
@@ -16,6 +16,4 @@ public class Pessoa {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	
 }

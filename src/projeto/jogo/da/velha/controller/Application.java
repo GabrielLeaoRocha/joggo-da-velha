@@ -1,45 +1,46 @@
-package application;
+package projeto.jogo.da.velha.controller;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import entities.Jogada;
-import entities.Jogador;
-import entities.Posicao;
-import entities.Tabuleiro;
+import projeto.jogo.da.velha.model.Jogada;
+import projeto.jogo.da.velha.model.Jogador;
+import projeto.jogo.da.velha.model.Posicao;
+import projeto.jogo.da.velha.model.Tabuleiro;
 
-public class Main {
+public class Application {
 
-	public static void main(String[] args) {
+	private static Scanner sc = new Scanner(System.in);
+	private static Posicao posicao = new Posicao();
+	private static Jogada jogada = new Jogada();
+	private static String peca;
+	private static char resp;
+	private static List<Jogador> jogadores = new ArrayList<>();
+	private static String nomeJogador01, nomeJogador02;
 
-		Scanner sc = new Scanner(System.in);
-		Posicao posicao = new Posicao();
-		Jogada jogada = new Jogada();
-		String peca;
-		char resp;
-		List<Jogador> jogadores = new ArrayList<>();
-		String nomeJogador01, nomeJogador02;
+	Application(){}
+
+	public static void partidaJogoDaVelha() {
 
 		System.out.println("========== JOGO DA VELHA ==========");
-		pularLinha();
+		Tabuleiro.pularLinha();
 
-		System.out.print("Forneça o nome do jogador 1: ");
+		System.out.print("Nome do jogador 1: ");
 		nomeJogador01 = sc.nextLine();
 
-		do {
-			System.out.print("Escolha uma letra para jogar: ");
+		while (true){
+			System.out.print("Escolha uma peça entre 'X' ou 'O': ");
 			peca = sc.next();
 
 			if (jogada.validaPeca(peca)) {
 				jogadores.add(new Jogador(nomeJogador01, peca.toUpperCase()));
 				break;
 			}
+		}
 
-		} while (true);
-
-		System.out.print("\nForneça o nome do jogador 2: ");
+		System.out.print("\nNome do jogador 2: ");
 		sc.nextLine();
 		nomeJogador02 = sc.nextLine();
 
@@ -49,13 +50,13 @@ public class Main {
 			jogadores.add(new Jogador(nomeJogador02, "X"));
 		}
 
-		pularLinha();
+		Tabuleiro.pularLinha();
 
 		System.out.println("<---- Que comecem os jogos ---->");
-		pularLinha();
+		Tabuleiro.pularLinha();
 		System.out.println(jogadores.get(0).getNome() + " é a peça '" + jogadores.get(0).getPeca() + "'");
 		System.out.println(jogadores.get(1).getNome() + " é a peça '" + jogadores.get(1).getPeca() + "'");
-		pularLinha();
+		Tabuleiro.pularLinha();
 
 		do {
 
@@ -66,16 +67,17 @@ public class Main {
 
 				if (j == 1) {
 					tabuleiro.printMoldeTabuleiro();
+					j++;
 				}
 
 				try {
 					System.out.print("\n#" + jogadores.get(jogada.traduzJogador(jogada.getRodada())).getNome()
-							+ " selecione a casa: ");
+							+ " selecione uma casa de 1 a 9: ");
 					int casa = sc.nextInt();
 					boolean condicaoRodada = tabuleiro.acrescentaPeca(posicao.traduzPosicao(casa),jogadores.get(jogada.traduzJogador(jogada.getRodada())).getPeca());
 
 					if (condicaoRodada) {
-						pularLinha();
+						Tabuleiro.pularLinha();
 						tabuleiro.printTabuleiro();
 					}
 
@@ -83,10 +85,10 @@ public class Main {
 					jogada.condicaoDeEmpate(tabuleiro.getMat_boolean());
 
 					if (jogada.isVitoria()) {
-						pularLinha();
+						Tabuleiro.pularLinha();
 						System.out.println("Jogador " + jogadores.get(jogada.traduzJogador(jogada.getRodada())).getNome() + " venceu!!!!");
 					} else if (jogada.isEmpate()) {
-						pularLinha();
+						Tabuleiro.pularLinha();
 						System.out.println("Empate!");
 					}
 
@@ -95,30 +97,30 @@ public class Main {
 						jogada.addRodada();
 					}
 				} catch (InputMismatchException e) {
-					System.out.println("ERROR! Casa não existente no tabuleiro!");
+					System.out.println("ATENÇÃO! Casa não existente no tabuleiro");
 					sc.nextLine();
 				}
-
 			}
 
-			pularLinha();
-			System.out.print("Deseja jogar novamente? (s/n): ");
-			resp = sc.next().charAt(0);
-			pularLinha();
+			Tabuleiro.pularLinha();
+
+			while(true) {
+				System.out.print("Deseja jogar novamente? (s/n): ");
+				resp = sc.next().toUpperCase().charAt(0);
+
+				if(resp == 'S' || resp == 'N') {
+					break;
+				}else{
+					System.out.println("Escolha entre S (sim) ou N (não)!");
+					Tabuleiro.pularLinha();
+				}
+			}
+
+			Tabuleiro.pularLinha();
 			System.out.println("------------------------------");
 			jogada.resetaRodada();
 
-		} while (resp != 'n');
+		} while (resp != 'N');
 		sc.close();
 	}
-
-	// methods
-
-	public static void pularLinha() {
-		System.out.println();
-	}
 }
-
-/*
- * 
- */
