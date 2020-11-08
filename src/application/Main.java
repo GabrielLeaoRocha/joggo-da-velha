@@ -58,8 +58,9 @@ public class Main {
 		do {
 			
 			Tabuleiro tabuleiro = new Tabuleiro();
+			int j = 1;
 			
-			for (int j = 1; j <= (tabuleiro.getColunas()*tabuleiro.getLinhas()); j++) {
+			while (!jogada.isVitoria() && !jogada.isEmpate()) {
 				
 				if (j == 1) {
 					tabuleiro.printMoldeTabuleiro();
@@ -77,14 +78,13 @@ public class Main {
 				if (jogada.isVitoria()) {
 					pularLinha();
 					System.out.println("Jogador " + jogadores.get(jogada.traduzJogador(jogada.getRodada())).getNome() + " venceu!!!!");
-					j = 9;
 				}
 				else if (jogada.isEmpate()) {
 					pularLinha();
 					System.out.println("Empate!");
-					j = 9;
 				}
 				
+				j++;
 				jogada.addRodada();
 			}
 			
