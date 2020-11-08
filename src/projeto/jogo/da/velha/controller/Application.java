@@ -105,7 +105,7 @@ public class Application {
 					}
 					
 				} catch (InputMismatchException e) {
-					System.out.println("ATENÇÃO! Não é permitido letras ou caracteres");
+					System.out.println("ATENÇÃO! Não é permitido letras ou caracteres especiais");
 					sc.nextLine();
 				}
 			}
