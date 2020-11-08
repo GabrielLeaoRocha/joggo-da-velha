@@ -14,7 +14,7 @@ public class Application {
 
 	private static Scanner sc = new Scanner(System.in);
 	private static Posicao posicao = new Posicao();
-	private static Jogada jogada;
+	private static Jogada jogada = new Jogada();
 	private static List<Jogador> jogadores = new ArrayList<>();
 	private static String nomeJogador01, nomeJogador02;
 	private static String peca;
@@ -59,9 +59,8 @@ public class Application {
 		Tabuleiro.pularLinha();
 
 		do {
-
+			
 			Tabuleiro tabuleiro = new Tabuleiro();
-			jogada = new Jogada();
 			int j = 1;
 
 			while (!jogada.isVitoria() && !jogada.isEmpate()) {
@@ -119,6 +118,7 @@ public class Application {
 
 			Tabuleiro.pularLinha();
 			System.out.println("------------------------------");
+			jogada.limpaRodada();
 			
 		} while (resp != 'N');
 		sc.close();
