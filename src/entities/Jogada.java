@@ -94,4 +94,10 @@ public class Jogada {
 		System.out.println("\nError!!! Escolhe entre 'X' ou 'O'");
 		return false;
 	}
+	
+	public void resetaRodada() {
+		this.rodada = rd.nextInt(2);
+		this.empate = false;
+		this.vitoria = false;
+	}
 }

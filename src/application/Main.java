@@ -16,7 +16,6 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		Posicao posicao = new Posicao();
 		Jogada jogada = new Jogada();
-		Tabuleiro tabuleiro = new Tabuleiro();
 		String peca;
 		char resp;
 		List<Jogador> jogadores = new ArrayList<>();
@@ -57,42 +56,44 @@ public class Main {
 		pularLinha();
 
 		do {
+			
+			Tabuleiro tabuleiro = new Tabuleiro();
+			
 			for (int j = 1; j <= (tabuleiro.getColunas()*tabuleiro.getLinhas()); j++) {
+				
 				if (j == 1) {
-					System.out.println("1  2  3\n4  5  6\n7  8  9");
-				} else {
-					tabuleiro.printTabuleiro();
+					tabuleiro.printMoldeTabuleiro();
 				}
-
+				
 				System.out.print("\n#" + jogadores.get(jogada.traduzJogador(jogada.getRodada())).getNome() + " selecione a casa: ");
 				int casa = sc.nextInt();
 				tabuleiro.acrescentaPeca(posicao.traduzPosicao(casa),jogadores.get(jogada.traduzJogador(jogada.getRodada())).getPeca());
-				
 				pularLinha();
+				tabuleiro.printTabuleiro();
 				
-				jogada.addRodada();
 				jogada.condicaoDeVitoria(tabuleiro.getMat(), jogadores.get(jogada.traduzJogador(jogada.getRodada())).getPeca());
 				jogada.condicaoDeEmpate(tabuleiro.getMat_boolean());
 				
 				if (jogada.isVitoria()) {
-					tabuleiro.printTabuleiro();
 					pularLinha();
 					System.out.println("Jogador " + jogadores.get(jogada.traduzJogador(jogada.getRodada())).getNome() + " venceu!!!!");
 					j = 9;
 				}
-				else if (!jogada.isVitoria() && jogada.isEmpate()) {
-					tabuleiro.printTabuleiro();
+				else if (jogada.isEmpate()) {
 					pularLinha();
 					System.out.println("Empate!");
 					j = 9;
 				}
+				
+				jogada.addRodada();
 			}
+			
 			pularLinha();
 			System.out.print("Deseja jogar novamente? (s/n): ");
 			resp = sc.next().charAt(0);
 			pularLinha();
 			System.out.println("------------------------------");
-			tabuleiro.criaTabuleiro();
+			jogada.resetaRodada();
 			
 		} while (resp != 'n');
 		sc.close();
@@ -109,5 +110,4 @@ public class Main {
  * MELHORIAS A SEREM FEITAS: 
  * lançar exceções 
  * retornar para a jogada passada caso ocorra uma exceção
- * consertar verificacao de vitoria
  */
