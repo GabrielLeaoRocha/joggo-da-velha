@@ -32,7 +32,7 @@ public class Tabuleiro {
 	}
 	
 	//metodos
-	private void criaTabuleiro(){
+	public void criaTabuleiro(){
 		for (int i = 0; i < mat.length; i++) {
 			for (int j = 0; j < mat[i].length; j++) {
 				mat[i][j] = "-";
@@ -63,5 +63,6 @@ public class Tabuleiro {
 			System.out.println();
 		}
 	}
+	
 	
 }

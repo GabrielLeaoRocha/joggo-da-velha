@@ -27,6 +27,7 @@ public class Jogador extends Pessoa{
 		this.pontos = pontos;
 	}
 	
+	//methods
 	public void addJogador(Jogador jogador) {
 		this.jogadores.add(jogador);
 	}
