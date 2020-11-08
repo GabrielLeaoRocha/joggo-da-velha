@@ -46,12 +46,14 @@ public class Tabuleiro {
 		}
 	}
 	
-	public void acrescentaPeca(Posicao p, String peca) {
+	public boolean acrescentaPeca(Posicao p, String peca) {
 		if(this.mat_boolean[p.getLinha()][p.getColuna()] == false){
 			this.mat[p.getLinha()][p.getColuna()] = peca;
 			this.mat_boolean[p.getLinha()][p.getColuna()] = true;
+			return true;
 		} else {
-			System.out.println("imposivel fazer essa jogada");
+			System.out.println("Casa ja ocupada, jogar novamente!");
+			return false;
 		}
 	}
 	

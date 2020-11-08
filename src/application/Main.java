@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,7 +26,7 @@ public class Main {
 		pularLinha();
 
 		System.out.print("Forneça o nome do jogador 1: ");
-		nomeJogador01 = sc.next();
+		nomeJogador01 = sc.nextLine();
 
 		do {
 			System.out.print("Escolha uma letra para jogar: ");
@@ -39,7 +40,8 @@ public class Main {
 		} while (true);
 
 		System.out.print("\nForneça o nome do jogador 2: ");
-		nomeJogador02 = sc.next();
+		sc.nextLine();
+		nomeJogador02 = sc.nextLine();
 
 		if (jogadores.get(0).getPeca().equals("x") || jogadores.get(0).getPeca().equals("X")) {
 			jogadores.add(new Jogador(nomeJogador02, "O"));
@@ -56,45 +58,56 @@ public class Main {
 		pularLinha();
 
 		do {
-			
+
 			Tabuleiro tabuleiro = new Tabuleiro();
 			int j = 1;
-			
+
 			while (!jogada.isVitoria() && !jogada.isEmpate()) {
-				
+
 				if (j == 1) {
 					tabuleiro.printMoldeTabuleiro();
 				}
-				
-				System.out.print("\n#" + jogadores.get(jogada.traduzJogador(jogada.getRodada())).getNome() + " selecione a casa: ");
-				int casa = sc.nextInt();
-				tabuleiro.acrescentaPeca(posicao.traduzPosicao(casa),jogadores.get(jogada.traduzJogador(jogada.getRodada())).getPeca());
-				pularLinha();
-				tabuleiro.printTabuleiro();
-				
-				jogada.condicaoDeVitoria(tabuleiro.getMat(), jogadores.get(jogada.traduzJogador(jogada.getRodada())).getPeca());
-				jogada.condicaoDeEmpate(tabuleiro.getMat_boolean());
-				
-				if (jogada.isVitoria()) {
-					pularLinha();
-					System.out.println("Jogador " + jogadores.get(jogada.traduzJogador(jogada.getRodada())).getNome() + " venceu!!!!");
+
+				try {
+					System.out.print("\n#" + jogadores.get(jogada.traduzJogador(jogada.getRodada())).getNome()
+							+ " selecione a casa: ");
+					int casa = sc.nextInt();
+					boolean condicaoRodada = tabuleiro.acrescentaPeca(posicao.traduzPosicao(casa),jogadores.get(jogada.traduzJogador(jogada.getRodada())).getPeca());
+
+					if (condicaoRodada) {
+						pularLinha();
+						tabuleiro.printTabuleiro();
+					}
+
+					jogada.condicaoDeVitoria(tabuleiro.getMat(),jogadores.get(jogada.traduzJogador(jogada.getRodada())).getPeca());
+					jogada.condicaoDeEmpate(tabuleiro.getMat_boolean());
+
+					if (jogada.isVitoria()) {
+						pularLinha();
+						System.out.println("Jogador " + jogadores.get(jogada.traduzJogador(jogada.getRodada())).getNome() + " venceu!!!!");
+					} else if (jogada.isEmpate()) {
+						pularLinha();
+						System.out.println("Empate!");
+					}
+
+					if (condicaoRodada) {
+						j++;
+						jogada.addRodada();
+					}
+				} catch (InputMismatchException e) {
+					System.out.println("ERROR! Casa não existente no tabuleiro!");
+					sc.nextLine();
 				}
-				else if (jogada.isEmpate()) {
-					pularLinha();
-					System.out.println("Empate!");
-				}
-				
-				j++;
-				jogada.addRodada();
+
 			}
-			
+
 			pularLinha();
 			System.out.print("Deseja jogar novamente? (s/n): ");
 			resp = sc.next().charAt(0);
 			pularLinha();
 			System.out.println("------------------------------");
 			jogada.resetaRodada();
-			
+
 		} while (resp != 'n');
 		sc.close();
 	}
@@ -107,7 +120,5 @@ public class Main {
 }
 
 /*
- * MELHORIAS A SEREM FEITAS: 
- * lançar exceções 
- * retornar para a jogada passada caso ocorra uma exceção
+ * 
  */
